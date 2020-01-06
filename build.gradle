@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
+}
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.41'
 }
@@ -11,6 +20,11 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation group: 'javax', name: 'javaee-api', version: '7.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.24.v20191120'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.24.v20191120'
+
 }
 
 compileKotlin {
@@ -18,4 +32,13 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+apply plugin: 'war'
+apply plugin: 'org.akhikhl.gretty'
+
+gretty {
+    httpPort = 8080
+    contextPath = '/'
+    servletContainer = 'jetty9'
 }
